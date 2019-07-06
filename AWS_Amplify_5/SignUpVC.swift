@@ -22,6 +22,12 @@ class SignUpVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let nextVC = segue.destination as! ConfirmCodeVC
+        nextVC.eMailText = eMailText.text
+        //nextVC.eMailTrans = sender as? String
+    }
+    
     @IBOutlet weak var eMailText: UITextField!
     @IBOutlet weak var usernameText: UITextField!
     @IBOutlet weak var passwordText: UITextField!
