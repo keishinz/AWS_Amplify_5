@@ -15,6 +15,10 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-
+    @IBAction func signInPageButton(_ sender: Any) {
+        performSegue(withIdentifier: "goSignInSegue", sender: nil)
+    }
+    
+    
 }
 
