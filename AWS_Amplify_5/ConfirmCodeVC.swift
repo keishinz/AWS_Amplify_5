@@ -25,10 +25,23 @@ class ConfirmCodeVC: UIViewController {
     @IBOutlet weak var confirmCodeField: UITextField!
     @IBAction func confirmCodeButton(_ sender: Any) {
         AWSMobileClient.sharedInstance().confirmSignUp(username: eMailText, confirmationCode: confirmCodeField.text!) { (signUpResult, error) in
+            DispatchQueue.main.async(execute: {
+                if let signUpResult = signUpResult {
+                    if signUpResult.signUpConfirmationState == .confirmed {
+                        self.performSegue(withIdentifier: "goSignUpOKSegue", sender: nil)
+                    } else {
+                        print("Unexpected case")
+                    }
+                } else if let error = error {
+                    print("\(error.localizedDescription)")
+                }
+            })
+            /*
             if let signUpResult = signUpResult {
                 switch(signUpResult.signUpConfirmationState) {
                 case .confirmed:
                     print("User is signed up and confirmed.")
+                    self.performSegue(withIdentifier: "goSignUpOKSegue", sender: nil)
                 case .unconfirmed:
                     print("User is not confirmed and needs verification via \(signUpResult.codeDeliveryDetails!.deliveryMedium) sent at \(signUpResult.codeDeliveryDetails!.destination!)")
                 case .unknown:
@@ -37,6 +50,8 @@ class ConfirmCodeVC: UIViewController {
             } else if let error = error {
                 print("\(error.localizedDescription)")
             }
+            */
+            
         }
     }
     
