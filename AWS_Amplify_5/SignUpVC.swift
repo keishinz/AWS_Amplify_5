@@ -9,15 +9,15 @@
 import UIKit
 import AWSMobileClient
 
-class SignUpVC: UIViewController, UITextFieldDelegate {
+class SignUpVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        eMailText.delegate = self
-        usernameText.delegate = self
-        passwordText.delegate = self
-        passwordComfirmText.delegate = self
+        //eMailText.delegate = self
+        //usernameText.delegate = self
+        //passwordText.delegate = self
+        //passwordComfirmText.delegate = self
 
         // Do any additional setup after loading the view.
     }
@@ -61,32 +61,46 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
         AWSMobileClient.sharedInstance().signUp(username: usernameText.text!,
                                                 password: passwordText.text!,
                                                 userAttributes: ["email":eMailText.text!]) { (signUpResult, error) in
-                                                    if let error = error {
-                                                        if let error = error as? AWSMobileClientError {
-                                                            switch(error) {
-                                                            case .usernameExists(let message):
-                                                                print(message)
-                                                            default:
-                                                                break
+                                                    DispatchQueue.main.async(execute: {
+                                                        if let error = error {
+                                                            if let error = error as? AWSMobileClientError {
+                                                                switch(error) {
+                                                                case .usernameExists(let message):
+                                                                    print(message)
+                                                                default:
+                                                                    break
+                                                                }
                                                             }
+                                                            print("\(error.localizedDescription)")
+                                                        } else if let signUpResult = signUpResult {
+                                                            if signUpResult.signUpConfirmationState != .confirmed {
+                                                                self.performSegue(withIdentifier: "goConfirm", sender: nil)
+                                                            } //else {
+                                                                //let _ = self.navigationController?.popToRootViewController(animated: true)
+                                                            //}
                                                         }
-                                                        print("\(error.localizedDescription)")
-                                                    } //else {
+                                                    })
+                                                    
+                                                    //else {
                                                         //self.performSegue(withIdentifier: "goSignUpComfirmCodeSegue", sender: nil)
                                                     //}
+                                                    
+                                                    
                                                     
                                                     /*
                                                     if let signUpResult = signUpResult {
                                                         switch(signUpResult.signUpConfirmationState) {
                                                             case .confirmed:
                                                                 print("User is signed up and confirmed.")
+                                                            
                                                             case .unconfirmed:
                                                                 //self.performSegue(withIdentifier: "goSignUpComfirmCodeSegue", sender: self.eMailText)
                                                                 print("User is not confirmed and needs verification via \(signUpResult.codeDeliveryDetails!.deliveryMedium) sent at \(signUpResult.codeDeliveryDetails!.destination!)")
+                                                            
                                                             case .unknown:
                                                                 print("Unexpected case")
                                                         }
-                                                        self.performSegue(withIdentifier: "goSignUpComfirmCodeSegue", sender: nil)
+                                                        //self.performSegue(withIdentifier: "goSignUpComfirmCodeSegue", sender: nil)
                                                     } else if let error = error {
                                                         if let error = error as? AWSMobileClientError {
                                                             switch(error) {
@@ -99,8 +113,8 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                                                         print("\(error.localizedDescription)")
                                                     }
                                                     */
+                                                    
         }
-        self.performSegue(withIdentifier: "goSignUpComfirmCodeSegue", sender: nil)
         
     }
     

@@ -1,5 +1,5 @@
 //
-//  SignUpComfirmCodeVC.swift
+//  ConfirmCodeVC.swift
 //  AWS_Amplify_5
 //
 //  Created by 張 渓岑 on 2019/07/06.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignUpComfirmCodeVC: UIViewController {
+class ConfirmCodeVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
