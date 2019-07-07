@@ -13,8 +13,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        self.navigationItem.hidesBackButton = true
     }
 
-
+    @IBAction func signInPageButton(_ sender: Any) {
+        performSegue(withIdentifier: "goSignInSegue", sender: nil)
+    }
+    
+    
 }
 

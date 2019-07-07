@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AWSMobileClient
 
 class SignUpOKVC: UIViewController {
 
@@ -14,9 +15,33 @@ class SignUpOKVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.navigationItem.hidesBackButton = true
     }
     
     @IBOutlet weak var signUpOKLabel: UILabel!
+    @IBAction func signOutButton(_ sender: Any) {
+        AWSMobileClient.sharedInstance().signOut()
+        
+        AWSMobileClient.sharedInstance().initialize { (userState, error) in
+            if let userState = userState {
+                switch(userState){
+                case .signedIn:
+                    DispatchQueue.main.async {
+                        print("For some reason, you can't sign out.lol")
+                    }
+                case .signedOut:
+                    DispatchQueue.main.async {
+                        self.performSegue(withIdentifier: "signOutSegue", sender: nil)
+                    }
+                default:
+                    break
+                }
+                
+            } else if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
     
     /*
     // MARK: - Navigation

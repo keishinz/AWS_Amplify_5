@@ -15,6 +15,7 @@ class ConfirmCodeVC: UIViewController {
         super.viewDidLoad()
         
         eMailTrans.text = eMailText
+        self.navigationItem.hidesBackButton = true
 
         // Do any additional setup after loading the view.
     }
