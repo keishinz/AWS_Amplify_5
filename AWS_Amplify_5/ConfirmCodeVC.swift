@@ -55,6 +55,31 @@ class ConfirmCodeVC: UIViewController {
         }
     }
     
+    @IBAction func resenCodeButton(_ sender: Any) {
+        AWSMobileClient.sharedInstance().resendSignUpCode(username: eMailText, completionHandler: { (result, error) in
+            DispatchQueue.main.async(execute: {
+                if let signUpResult = result {
+                    
+                    let checkEmailAlertController = UIAlertController(title: "Check your email", message: "A new code has been send", preferredStyle: .actionSheet)
+                    let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    checkEmailAlertController.addAction(defaultAction)
+                    self.present(checkEmailAlertController, animated: true, completion: nil)
+                    
+                    print("A verification code has been sent via \(signUpResult.codeDeliveryDetails!.deliveryMedium) at \(signUpResult.codeDeliveryDetails!.destination!)")
+                    
+                } else if let error = error {
+                    
+                    let confirmationErrorAlertController = UIAlertController(title: "Confirmation Error", message: "Check the code again or try to resend another code", preferredStyle: .alert)
+                    let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    confirmationErrorAlertController.addAction(defaultAction)
+                    self.present(confirmationErrorAlertController, animated: true, completion: nil)
+                    
+                    print("\(error.localizedDescription)")
+                    
+                }
+            })
+        })
+    }
     
     
 
