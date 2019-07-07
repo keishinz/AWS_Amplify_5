@@ -37,7 +37,7 @@ class SignUpVC: UIViewController {
     
     @IBAction func signUpButton(_ sender: Any) {
         
-        /*
+        
         guard let eMailValue = self.eMailText.text, !eMailValue.isEmpty,
             let userNameValue = self.usernameText.text, !userNameValue.isEmpty,
             let passwordValue = self.passwordText.text, !passwordValue.isEmpty,
@@ -62,7 +62,7 @@ class SignUpVC: UIViewController {
             self.present(unequalAlertController, animated: true, completion:  nil)
             return
         }
-        */
+        
         
         AWSMobileClient.sharedInstance().signUp(username: usernameText.text!,
                                                 password: passwordText.text!,
